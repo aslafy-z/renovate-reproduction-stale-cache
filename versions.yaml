@@ -1,0 +1,11 @@
+# Two references to the same upstream version. Renovate resolves both to
+# github.com/rook/rook and fetches the same release notes for each. The only
+# difference is the packageRule in renovate.json: the second entry gets a
+# sourceDirectory, which changes the release-notes cache key from
+# "rook/rook:<version>" to "rook/rook:<sourceDirectory>:<version>".
+
+# renovate: datasource=github-releases depName=rook-shared-cache-key packageName=rook/rook
+rook_shared_cache_key: v1.20.7
+
+# renovate: datasource=github-releases depName=rook-fresh-cache-key packageName=rook/rook
+rook_fresh_cache_key: v1.20.7
