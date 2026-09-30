@@ -5,7 +5,7 @@
 # "rook/rook:<version>" to "rook/rook:<sourceDirectory>:<version>".
 
 # renovate: datasource=github-releases depName=rook-shared-cache-key packageName=rook/rook
-rook_shared_cache_key: v1.20.7
+rook_shared_cache_key: v1.20.8
 
 # renovate: datasource=github-releases depName=rook-fresh-cache-key packageName=rook/rook
 rook_fresh_cache_key: v1.20.7
