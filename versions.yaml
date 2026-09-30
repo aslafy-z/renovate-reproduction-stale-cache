@@ -8,4 +8,4 @@
 rook_shared_cache_key: v1.20.7
 
 # renovate: datasource=github-releases depName=rook-fresh-cache-key packageName=rook/rook
-rook_fresh_cache_key: v1.20.7
+rook_fresh_cache_key: v1.20.8
