@@ -1,2 +1,0 @@
-# renovate: datasource=helm depName=rook-ceph registryUrl=https://charts.rook.io/release
-rook_ceph_chart: v1.20.7

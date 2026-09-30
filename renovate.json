@@ -1,21 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended"
+  ],
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/versions\\.yaml$/"],
+      "managerFilePatterns": [
+        "/^versions\\.yaml$/"
+      ],
       "matchStrings": [
-        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) registryUrl=(?<registryUrl>\\S+)\\n\\w+: (?<currentValue>\\S+)"
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) packageName=(?<packageName>\\S+) registryUrl=(?<registryUrl>\\S+)\\n\\w+: (?<currentValue>\\S+)"
       ]
     }
   ],
   "packageRules": [
     {
-      "description": "Same dependency, own PR, release-notes cache key changed by sourceDirectory",
-      "matchFileNames": ["escape/**"],
-      "additionalBranchPrefix": "escape-",
-      "commitMessageSuffix": "(cache key escaped)",
+      "description": "Same chart, release-notes cache key changed by sourceDirectory",
+      "matchDepNames": [
+        "rook-ceph-own-key"
+      ],
       "sourceDirectory": "deploy/charts/rook-ceph"
     }
   ]

@@ -1,0 +1,9 @@
+# Two pins of the same Helm chart at the same version. Both resolve to
+# github.com/rook/rook and the same v1.20.8 release; renovate.json gives the
+# second one a sourceDirectory, which changes its release-notes cache key.
+
+# renovate: datasource=helm depName=rook-ceph-shared-key packageName=rook-ceph registryUrl=https://charts.rook.io/release
+rook_ceph_shared_key: v1.20.7
+
+# renovate: datasource=helm depName=rook-ceph-own-key packageName=rook-ceph registryUrl=https://charts.rook.io/release
+rook_ceph_own_key: v1.20.7
