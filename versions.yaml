@@ -6,4 +6,4 @@
 rook_ceph_shared_key: v1.20.7
 
 # renovate: datasource=helm depName=rook-ceph-own-key packageName=rook-ceph registryUrl=https://charts.rook.io/release
-rook_ceph_own_key: v1.20.7
+rook_ceph_own_key: v1.20.8
