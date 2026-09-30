@@ -16,7 +16,7 @@
       "matchFileNames": ["escape/**"],
       "additionalBranchPrefix": "escape-",
       "commitMessageSuffix": "(cache key escaped)",
-      "sourceDirectory": "cache-key-escape"
+      "sourceDirectory": "deploy/charts/rook-ceph"
     }
   ]
 }

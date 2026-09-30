@@ -6,7 +6,7 @@ Reproduction for a Renovate discussion about the release-notes package cache. A 
 
 `shared/versions.yaml` and `escape/versions.yaml` are identical: the `rook-ceph` Helm chart from `https://charts.rook.io/release`, pinned at `v1.20.7`. Both resolve to `github.com/rook/rook` through the chart index, and both update to `v1.20.8`, whose GitHub release has a body.
 
-`renovate.json` treats the `escape/` copy differently in exactly one way that matters: `sourceDirectory: cache-key-escape`. That directory does not exist upstream, so Renovate finds no changelog file there and falls back to the GitHub release as usual, but the release-notes cache key becomes `rook/rook:cache-key-escape:v1.20.8` instead of `rook/rook:v1.20.8`. `additionalBranchPrefix` only gives it its own PR so the two renderings can be compared side by side.
+`renovate.json` treats the `escape/` copy differently in exactly one way that matters: `sourceDirectory: deploy/charts/rook-ceph`, the directory the chart is actually published from. It holds no changelog file, so Renovate falls back to the GitHub release as usual, but the release-notes cache key becomes `rook/rook:deploy/charts/rook-ceph:v1.20.8` instead of `rook/rook:v1.20.8`. `additionalBranchPrefix` only gives it its own PR so the two renderings can be compared side by side.
 
 Expected: both PRs render the release body.
 
@@ -15,7 +15,7 @@ Observed on the Mend hosted app (Renovate 44.112.0):
 | File | Cache key | Rendered |
 |---|---|---|
 | `shared/versions.yaml` | `rook/rook:v1.20.8` | compare-only |
-| `escape/versions.yaml` | `rook/rook:cache-key-escape:v1.20.8` | full release body |
+| `escape/versions.yaml` | `rook/rook:deploy/charts/rook-ceph:v1.20.8` | full release body |
 
 Same repository, same dependency, same upstream release, same run. The only variable is the cache key.
 
