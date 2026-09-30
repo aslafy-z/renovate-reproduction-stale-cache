@@ -4,20 +4,22 @@ Reproduction for a Renovate discussion about the release-notes package cache. A 
 
 ## Reproduction
 
-`versions.yaml` pins `rook/rook` at `v1.20.7` twice, through the `github-releases` datasource, so no container registry is involved. Both entries resolve to the same upstream repository and the same release, `v1.20.8`, whose GitHub release has a body.
+`shared/versions.yaml` and `escape/versions.yaml` are identical: the `rook-ceph` Helm chart from `https://charts.rook.io/release`, pinned at `v1.20.7`. Both resolve to `github.com/rook/rook` through the chart index, and both update to `v1.20.8`, whose GitHub release has a body.
 
-The only difference is in `renovate.json`: the second entry has `sourceDirectory: cache-key-escape`, which changes its release-notes cache key from `rook/rook:v1.20.8` to `rook/rook:cache-key-escape:v1.20.8`. The directory does not exist upstream, so Renovate finds no changelog file there and falls back to the GitHub release, exactly as it would without `sourceDirectory`.
+`renovate.json` treats the `escape/` copy differently in exactly one way that matters: `sourceDirectory: cache-key-escape`. That directory does not exist upstream, so Renovate finds no changelog file there and falls back to the GitHub release as usual, but the release-notes cache key becomes `rook/rook:cache-key-escape:v1.20.8` instead of `rook/rook:v1.20.8`. `additionalBranchPrefix` only gives it its own PR so the two renderings can be compared side by side.
 
 Expected: both PRs render the release body.
 
 Observed on the Mend hosted app (Renovate 44.112.0):
 
-| Dependency | Cache key | Rendered |
+| File | Cache key | Rendered |
 |---|---|---|
-| `rook-shared-cache-key` | `rook/rook:v1.20.8` | compare-only |
-| `rook-fresh-cache-key` | `rook/rook:cache-key-escape:v1.20.8` | full release body |
+| `shared/versions.yaml` | `rook/rook:v1.20.8` | compare-only |
+| `escape/versions.yaml` | `rook/rook:cache-key-escape:v1.20.8` | full release body |
 
-Same repository, same upstream, same version, same run. The only variable is the cache key.
+Same repository, same dependency, same upstream release, same run. The only variable is the cache key.
+
+Note on datasources: the key also appends the release `gitRef` when the datasource provides one. `github-releases` does, so a pin through that datasource uses `rook/rook:v1.20.8:v1.20.8` and does not share the entry with Helm or Docker consumers of the same release. The Helm datasource is used here to hit the same key as a chart consumer.
 
 ## Where it happens
 

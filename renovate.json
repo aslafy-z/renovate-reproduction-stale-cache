@@ -4,16 +4,18 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/^versions\\.yaml$/"],
+      "managerFilePatterns": ["/versions\\.yaml$/"],
       "matchStrings": [
-        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) packageName=(?<packageName>\\S+)\\n\\w+: (?<currentValue>\\S+)"
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) registryUrl=(?<registryUrl>\\S+)\\n\\w+: (?<currentValue>\\S+)"
       ]
     }
   ],
   "packageRules": [
     {
-      "description": "Escape the shared release-notes cache entry by changing its key",
-      "matchDepNames": ["rook-fresh-cache-key"],
+      "description": "Same dependency, own PR, release-notes cache key changed by sourceDirectory",
+      "matchFileNames": ["escape/**"],
+      "additionalBranchPrefix": "escape-",
+      "commitMessageSuffix": "(cache key escaped)",
       "sourceDirectory": "cache-key-escape"
     }
   ]
