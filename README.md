@@ -2,7 +2,7 @@
 
 Reproduction for a Renovate discussion about the release-notes package cache. A lookup that finds no release notes is cached as a compare-only entry under the key `<repository>:<version>`, and every later cache hit rewrites that entry with a fresh TTL instead of retrying. On a cache shared between repositories, such as the Mend hosted app, the entry never expires and every PR for that upstream version renders only a `[Compare Source]` link.
 
-## Hosted app reproduction (this repository)
+## Reproduction
 
 `versions.yaml` pins `rook/rook` at `v1.20.7` twice, through the `github-releases` datasource, so no container registry is involved. Both entries resolve to the same upstream repository and the same release, `v1.20.8`, whose GitHub release has a body.
 
@@ -18,14 +18,6 @@ Observed on the Mend hosted app (Renovate 44.112.0):
 | `rook-fresh-cache-key` | `rook/rook:cache-key-escape:v1.20.8` | full release body |
 
 Same repository, same upstream, same version, same run. The only variable is the cache key.
-
-## Self-hosted reproduction (`self-hosted/`)
-
-The same defect without any shared cache, using a dependency whose upstream tags releases with a prefix (`nginx` tags `release-<semver>`), so a rule needs `extractVersion` for the release to match:
-
-1. Run Renovate with `self-hosted/renovate.step1.json` (no `extractVersion`, cannot match). Expected and observed: compare-only.
-2. Run again against the same `cacheDir`, within 55 minutes, with `self-hosted/renovate.step2.json` (`extractVersion` added, matches). Expected: full notes. Observed: compare-only.
-3. Run step 2 against a fresh `cacheDir`. Observed: full notes of `release-1.31.6`.
 
 ## Where it happens
 
